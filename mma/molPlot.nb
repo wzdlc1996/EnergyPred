@@ -1,0 +1,260 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      8777,        252]
+NotebookOptionsPosition[      8265,        235]
+NotebookOutlinePosition[      8600,        250]
+CellTagsIndexPosition[      8557,        247]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "dataPref", "=", 
+   "\"\</Users/leonard/Documents/Projects/EnergyPred/data/train/\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"molName", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<asp\>\"", ",", "\"\<eth\>\"", ",", "\"\<mal\>\"", ",", "\"\<nap\>\"",
+      ",", "\"\<sal\>\"", ",", "\"\<tol\>\"", ",", "\"\<ura\>\""}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"atmName", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<C\>\"", ",", "\"\<H\>\"", ",", "\"\<O\>\"", ",", "\"\<N\>\""}], 
+    "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"sizeList", "=", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"1.", ",", "0.5", ",", "2.", ",", "1.5"}], "}"}], "*", "0.4"}]}],
+   ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"colorList", "=", 
+   RowBox[{"{", 
+    RowBox[{"Black", ",", "White", ",", "Red", ",", "Blue"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"molSel", "=", "7"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"coordData", "=", 
+   RowBox[{"Import", "[", 
+    RowBox[{
+     RowBox[{"dataPref", "<>", 
+      RowBox[{
+      "molName", "\[LeftDoubleBracket]", "molSel", "\[RightDoubleBracket]"}], 
+      "<>", "\"\<_data/coord.dat\>\""}], ",", "\"\<Table\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"enerData", "=", 
+   RowBox[{
+    RowBox[{"Import", "[", 
+     RowBox[{
+      RowBox[{"dataPref", "<>", 
+       RowBox[{
+       "molName", "\[LeftDoubleBracket]", "molSel", "\[RightDoubleBracket]"}],
+        "<>", "\"\<_data/ener.dat\>\""}], ",", "\"\<Table\>\""}], "]"}], "//",
+     "Flatten"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"typeData", "=", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Import", "[", 
+       RowBox[{
+        RowBox[{"dataPref", "<>", 
+         RowBox[{
+         "molName", "\[LeftDoubleBracket]", "molSel", 
+          "\[RightDoubleBracket]"}], "<>", "\"\<_data/type.dat\>\""}], ",", 
+        "\"\<Table\>\""}], "]"}], "//", "Flatten"}], ")"}], "+", "1"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"getMol", "[", "ind_", "]"}], ":=", 
+   RowBox[{"Block", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"coord", "=", 
+        RowBox[{
+        "coordData", "\[LeftDoubleBracket]", "ind", 
+         "\[RightDoubleBracket]"}]}], ",", 
+       RowBox[{"energ", "=", 
+        RowBox[{
+        "enerData", "\[LeftDoubleBracket]", "ind", 
+         "\[RightDoubleBracket]"}]}], ",", 
+       RowBox[{"types", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"atmName", "[", 
+           RowBox[{"[", "#", "]"}], "]"}], "&"}], "/@", "typeData"}]}], ",", 
+       "atmCoordList"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"atmCoordList", "=", 
+       RowBox[{"Partition", "[", 
+        RowBox[{"coord", ",", "3"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", "\[IndentingNewLine]", 
+       RowBox[{"<|", 
+        RowBox[{
+         RowBox[{"\"\<coord\>\"", "\[Rule]", "atmCoordList"}], ",", 
+         RowBox[{"\"\<atoms\>\"", "\[Rule]", "types"}], ",", 
+         RowBox[{"\"\<energy\>\"", "\[Rule]", "energ"}]}], "|>"}], 
+       "\[IndentingNewLine]", "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"plotMol", "[", "ind_", "]"}], ":=", 
+  RowBox[{"Block", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"coord", "=", 
+       RowBox[{
+       "coordData", "\[LeftDoubleBracket]", "ind", 
+        "\[RightDoubleBracket]"}]}], ",", 
+      RowBox[{"energ", "=", 
+       RowBox[{
+       "enerData", "\[LeftDoubleBracket]", "ind", "\[RightDoubleBracket]"}]}],
+       ",", 
+      RowBox[{"types", "=", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"atmName", "[", 
+          RowBox[{"[", "#", "]"}], "]"}], "&"}], "/@", "typeData"}]}], ",", 
+      "atmCoordList"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"atmCoordList", "=", 
+      RowBox[{"Partition", "[", 
+       RowBox[{"coord", ",", "3"}], "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Graphics3D", "[", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"Style", "[", 
+         RowBox[{
+          RowBox[{"Ball", "[", 
+           RowBox[{
+            RowBox[{
+            "atmCoordList", "\[LeftDoubleBracket]", "i", 
+             "\[RightDoubleBracket]"}], ",", 
+            RowBox[{"sizeList", "\[LeftDoubleBracket]", 
+             RowBox[{
+             "typeData", "\[LeftDoubleBracket]", "i", 
+              "\[RightDoubleBracket]"}], "\[RightDoubleBracket]"}]}], "]"}], 
+          ",", 
+          RowBox[{"colorList", "\[LeftDoubleBracket]", 
+           RowBox[{
+           "typeData", "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}],
+            "\[RightDoubleBracket]"}]}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", 
+          RowBox[{"Length", "[", "types", "]"}]}], "}"}]}], "]"}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]}], "Input",
+ CellChangeTimes->{{3.7857299180274878`*^9, 3.7857300301455507`*^9}, {
+  3.785730063609538*^9, 3.785730187660494*^9}, {3.785730360200876*^9, 
+  3.785730421605022*^9}, {3.785732446063449*^9, 3.785732451379034*^9}, {
+  3.785732522201632*^9, 3.785732522655469*^9}},
+ CellLabel->
+  "In[253]:=",ExpressionUUID->"53170ce9-a952-4d4b-a7f9-f0fcdb910fac"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"plotMol", "[", "7", "]"}]], "Input",
+ CellChangeTimes->{{3.785732043019128*^9, 3.785732051673057*^9}, {
+  3.785732109530222*^9, 3.785732109752985*^9}, {3.785732434445122*^9, 
+  3.785732476024569*^9}},
+ CellLabel->
+  "In[264]:=",ExpressionUUID->"aacff1ec-02d5-425a-89f8-fdad1558ebb4"],
+
+Cell[BoxData[
+ Graphics3DBox[{
+   {GrayLevel[0], 
+    TagBox[SphereBox[{1.62471402, 0.311634004, -0.0274190009}, 0.4],
+     "Ball"]}, 
+   {GrayLevel[0], 
+    TagBox[SphereBox[{1.36886501, -1.00211704, -0.00901299994}, 0.4],
+     "Ball"]}, 
+   {GrayLevel[0], 
+    TagBox[SphereBox[{-0.981467009, -0.86282903, 0.149859995}, 0.4],
+     "Ball"]}, 
+   {GrayLevel[0], 
+    TagBox[SphereBox[{0.510231018, 1.23651302, -0.0364260003}, 0.4],
+     "Ball"]}, 
+   {GrayLevel[1], 
+    TagBox[SphereBox[{2.1248579, -1.73753202, -0.294295013}, 0.2],
+     "Ball"]}, 
+   {GrayLevel[1], 
+    TagBox[SphereBox[{0.172852993, -2.53098512, 0.128763005}, 0.2],
+     "Ball"]}, 
+   {GrayLevel[1], 
+    TagBox[SphereBox[{-1.62793195, 1.14912605, -0.119291998}, 0.2],
+     "Ball"]}, 
+   {GrayLevel[1], 
+    TagBox[SphereBox[{2.63951111, 0.809684992, -0.236871004}, 0.2],
+     "Ball"]}, 
+   {RGBColor[1, 0, 0], 
+    TagBox[SphereBox[{-2.10029006, -1.20657206, 0.379536986}, 0.8],
+     "Ball"]}, 
+   {RGBColor[1, 0, 0], 
+    TagBox[SphereBox[{0.539214015, 2.44698596, -0.090801999}, 0.8],
+     "Ball"]}, 
+   {RGBColor[0, 0, 1], 
+    TagBox[
+     SphereBox[{0.133809, -1.53099597, -0.119272999}, 0.6000000000000001],
+     "Ball"]}, 
+   {RGBColor[0, 0, 1], 
+    TagBox[
+     SphereBox[{-0.751621008, 0.551993012, -0.239163995}, 0.6000000000000001],
+     
+     "Ball"]}},
+  ImageSize->{284.82094617937696`, 305.08901680478505`},
+  ImageSizeRaw->Automatic,
+  ViewPoint->{1.1679206331936098`, 0.03186339355938911, 3.1756804182271745`},
+  ViewVertical->{0.1219049757470406, 0.29161808952509, 
+   0.9487349823580082}]], "Output",
+ CellChangeTimes->{{3.785732044907844*^9, 3.785732051960712*^9}, 
+   3.7857321102513323`*^9, 3.785732151197225*^9, {3.785732188504706*^9, 
+   3.785732202950808*^9}, 3.78573223940773*^9, {3.78573237193372*^9, 
+   3.7857324763946333`*^9}, 3.785732525614571*^9},
+ CellLabel->
+  "Out[264]=",ExpressionUUID->"878346b1-1318-4ed0-937a-e0bc37d0f4a9"]
+}, Open  ]]
+},
+WindowSize->{808, 707},
+WindowMargins->{{0, Automatic}, {1, Automatic}},
+FrontEndVersion->"12.0 for Mac OS X x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 5421, 149, 514, "Input",ExpressionUUID->"53170ce9-a952-4d4b-a7f9-f0fcdb910fac"],
+Cell[CellGroupData[{
+Cell[6004, 173, 307, 6, 30, "Input",ExpressionUUID->"aacff1ec-02d5-425a-89f8-fdad1558ebb4"],
+Cell[6314, 181, 1935, 51, 356, "Output",ExpressionUUID->"878346b1-1318-4ed0-937a-e0bc37d0f4a9"]
+}, Open  ]]
+}
+]
+*)
+
