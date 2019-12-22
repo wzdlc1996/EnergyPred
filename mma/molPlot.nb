@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[      8777,        252]
-NotebookOptionsPosition[      8265,        235]
-NotebookOutlinePosition[      8600,        250]
-CellTagsIndexPosition[      8557,        247]
+NotebookDataLength[      8926,        255]
+NotebookOptionsPosition[      8404,        238]
+NotebookOutlinePosition[      8749,        253]
+CellTagsIndexPosition[      8706,        250]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -21,8 +21,11 @@ Notebook[{
 Cell[BoxData[{
  RowBox[{
   RowBox[{
-  "dataPref", "=", 
-   "\"\</Users/leonard/Documents/Projects/EnergyPred/data/train/\>\""}], 
+  "foldPref", "=", "\"\</Users/leonard/Documents/Projects/EnergyPred/\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dataPref", "=", 
+   RowBox[{"foldPref", "<>", "\"\<data/train/\>\""}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"molName", "=", 
@@ -165,9 +168,10 @@ Cell[BoxData[{
  CellChangeTimes->{{3.7857299180274878`*^9, 3.7857300301455507`*^9}, {
   3.785730063609538*^9, 3.785730187660494*^9}, {3.785730360200876*^9, 
   3.785730421605022*^9}, {3.785732446063449*^9, 3.785732451379034*^9}, {
-  3.785732522201632*^9, 3.785732522655469*^9}},
- CellLabel->
-  "In[253]:=",ExpressionUUID->"53170ce9-a952-4d4b-a7f9-f0fcdb910fac"],
+  3.785732522201632*^9, 3.785732522655469*^9}, {3.785991645533437*^9, 
+  3.785991655600301*^9}, {3.785994316232932*^9, 
+  3.7859943173592987`*^9}},ExpressionUUID->"53170ce9-a952-4d4b-a7f9-\
+f0fcdb910fac"],
 
 Cell[CellGroupData[{
 
@@ -175,9 +179,8 @@ Cell[BoxData[
  RowBox[{"plotMol", "[", "7", "]"}]], "Input",
  CellChangeTimes->{{3.785732043019128*^9, 3.785732051673057*^9}, {
   3.785732109530222*^9, 3.785732109752985*^9}, {3.785732434445122*^9, 
-  3.785732476024569*^9}},
- CellLabel->
-  "In[264]:=",ExpressionUUID->"aacff1ec-02d5-425a-89f8-fdad1558ebb4"],
+  3.785732476024569*^9}},ExpressionUUID->"aacff1ec-02d5-425a-89f8-\
+fdad1558ebb4"],
 
 Cell[BoxData[
  Graphics3DBox[{
@@ -228,14 +231,14 @@ Cell[BoxData[
  CellChangeTimes->{{3.785732044907844*^9, 3.785732051960712*^9}, 
    3.7857321102513323`*^9, 3.785732151197225*^9, {3.785732188504706*^9, 
    3.785732202950808*^9}, 3.78573223940773*^9, {3.78573237193372*^9, 
-   3.7857324763946333`*^9}, 3.785732525614571*^9},
- CellLabel->
-  "Out[264]=",ExpressionUUID->"878346b1-1318-4ed0-937a-e0bc37d0f4a9"]
+   3.7857324763946333`*^9}, 
+   3.785732525614571*^9},ExpressionUUID->"878346b1-1318-4ed0-937a-\
+e0bc37d0f4a9"]
 }, Open  ]]
 },
-WindowSize->{808, 707},
-WindowMargins->{{0, Automatic}, {1, Automatic}},
-FrontEndVersion->"12.0 for Mac OS X x86 (64-bit) (April 8, 2019)",
+WindowSize->{956, 1025},
+WindowMargins->{{Automatic, 2}, {2, Automatic}},
+FrontEndVersion->"11.2 for Linux x86 (64-bit) (2017\:5e749\:670810\:65e5)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -249,10 +252,10 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 5421, 149, 514, "Input",ExpressionUUID->"53170ce9-a952-4d4b-a7f9-f0fcdb910fac"],
+Cell[558, 20, 5608, 153, 560, "Input",ExpressionUUID->"53170ce9-a952-4d4b-a7f9-f0fcdb910fac"],
 Cell[CellGroupData[{
-Cell[6004, 173, 307, 6, 30, "Input",ExpressionUUID->"aacff1ec-02d5-425a-89f8-fdad1558ebb4"],
-Cell[6314, 181, 1935, 51, 356, "Output",ExpressionUUID->"878346b1-1318-4ed0-937a-e0bc37d0f4a9"]
+Cell[6191, 177, 281, 5, 31, "Input",ExpressionUUID->"aacff1ec-02d5-425a-89f8-fdad1558ebb4"],
+Cell[6475, 184, 1913, 51, 322, "Output",ExpressionUUID->"878346b1-1318-4ed0-937a-e0bc37d0f4a9"]
 }, Open  ]]
 }
 ]
