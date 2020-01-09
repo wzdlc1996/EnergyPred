@@ -1,3 +1,4 @@
 !.gitignore
 data/
 data_*/
+.DS_Store
