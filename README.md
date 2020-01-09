@@ -4,6 +4,7 @@ This is the solution of one of the 2019 Kaggle Challenge: [PES-challenge](https:
 
 Please download the data and arrange them as:
 
+```bash
 .
 ├── data
 │   └── origin
@@ -78,5 +79,6 @@ Please download the data and arrange them as:
 │   ├── molPreHand.nb
 │   └── molToField.nb
 └── README.md
+```
 
 Where `./data/origin/` stores all extracted data file from Kaggle official site.
