@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     12196,        336]
-NotebookOptionsPosition[     11515,        319]
-NotebookOutlinePosition[     11860,        334]
-CellTagsIndexPosition[     11817,        331]
+NotebookDataLength[     12722,        366]
+NotebookOptionsPosition[     12034,        349]
+NotebookOutlinePosition[     12385,        364]
+CellTagsIndexPosition[     12342,        361]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -25,15 +25,15 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"dataPref", "=", 
-   RowBox[{"foldPref", "<>", "\"\<data/train/\>\""}]}], 
+   RowBox[{"foldPref", "<>", "\"\<data/origin/train/\>\""}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"trainPref", "=", 
-   RowBox[{"foldPref", "<>", "\"\<data/train/\>\""}]}], 
+   RowBox[{"foldPref", "<>", "\"\<data/origin/train/\>\""}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"testPref", "=", 
-   RowBox[{"foldPref", "<>", "\"\<data/test/\>\""}]}], 
+   RowBox[{"foldPref", "<>", "\"\<data/origin/test/\>\""}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"molName", "=", 
@@ -59,8 +59,9 @@ Cell[BoxData[{
   3.785732522201632*^9, 3.785732522655469*^9}, {3.7857334045586157`*^9, 
   3.785733448011264*^9}, {3.7857334836441402`*^9, 3.785733498602653*^9}, {
   3.785991661733139*^9, 3.785991695077314*^9}, {3.7859917832884073`*^9, 
-  3.7859917835365973`*^9}, {3.7859943058553257`*^9, 
-  3.785994310748712*^9}},ExpressionUUID->"df5a499a-e6e1-4bfe-b9b3-\
+  3.7859917835365973`*^9}, {3.7859943058553257`*^9, 3.785994310748712*^9}, {
+  3.787456098020418*^9, 
+  3.7874561082038918`*^9}},ExpressionUUID->"df5a499a-e6e1-4bfe-b9b3-\
 11263740bda3"],
 
 Cell[BoxData[{
@@ -222,73 +223,102 @@ Cell[BoxData[{
      RowBox[{"#", "&"}], ",", 
      RowBox[{"{", "10000", "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"dataTrain", "=", 
+  RowBox[{"dataTrainBase", "=", 
    RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"valuTrain", "=", 
+  RowBox[{"dataValiBase", "=", 
    RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"dataVali", "=", 
-   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"valuVali", "=", 
-   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Do", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"fGenByClassNum", "[", 
+    RowBox[{"cls_", ",", "subInd_"}], "]"}], ":=", 
    RowBox[{
     RowBox[{
-     RowBox[{"sel", "=", 
-      RowBox[{"RandomSample", "[", 
-       RowBox[{"indLis", ",", "8000"}], "]"}]}], ";", "\[IndentingNewLine]", 
-     RowBox[{"val", "=", 
-      RowBox[{"Complement", "[", 
-       RowBox[{"indLis", ",", "sel"}], "]"}]}], ";", "\[IndentingNewLine]", 
-     RowBox[{"Do", "[", "\[IndentingNewLine]", 
-      RowBox[{
-       RowBox[{
-        RowBox[{"data", "=", 
-         RowBox[{"dataTran", "[", 
-          RowBox[{"ind", ",", "cls"}], "]"}]}], ";", "\[IndentingNewLine]", 
-        RowBox[{"AppendTo", "[", 
-         RowBox[{"dataTrain", ",", 
-          RowBox[{
-          "data", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
-         "]"}], ";", "\[IndentingNewLine]", 
-        RowBox[{"AppendTo", "[", 
-         RowBox[{"valuTrain", ",", 
-          RowBox[{
-          "data", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
-         "]"}], ";"}], "\[IndentingNewLine]", ",", 
-       RowBox[{"{", 
-        RowBox[{"ind", ",", "sel"}], "}"}]}], "]"}], ";", 
+     RowBox[{"dataTran", "[", 
+      RowBox[{"#", ",", "cls"}], "]"}], "&"}], "/@", "subInd"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"sampleGet", "[", "cls_", "]"}], ":=", 
+   RowBox[{"Block", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"tmpInd", ",", "sel", ",", "val"}], "}"}], ",", 
      "\[IndentingNewLine]", 
-     RowBox[{"Do", "[", "\[IndentingNewLine]", 
-      RowBox[{
+     RowBox[{
+      RowBox[{"tmpInd", "=", 
+       RowBox[{"RandomSample", "[", "indLis", "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"sel", "=", 
+       RowBox[{"tmpInd", "[", 
+        RowBox[{"[", 
+         RowBox[{";;", "8000"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"val", "=", 
+       RowBox[{"tmpInd", "[", 
+        RowBox[{"[", 
+         RowBox[{"8001", ";;"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Return", "[", 
        RowBox[{
-        RowBox[{"data", "=", 
-         RowBox[{"dataTran", "[", 
-          RowBox[{"ind", ",", "cls"}], "]"}]}], ";", "\[IndentingNewLine]", 
-        RowBox[{"AppendTo", "[", 
-         RowBox[{"dataVali", ",", 
-          RowBox[{
-          "data", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
-         "]"}], ";", "\[IndentingNewLine]", 
-        RowBox[{"AppendTo", "[", 
-         RowBox[{"valuVali", ",", 
-          RowBox[{
-          "data", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
-         "]"}], ";"}], "\[IndentingNewLine]", ",", 
-       RowBox[{"{", 
-        RowBox[{"ind", ",", "val"}], "}"}]}], "]"}], ";"}], 
-    "\[IndentingNewLine]", ",", 
-    RowBox[{"{", 
-     RowBox[{"cls", ",", "1", ",", "7"}], "}"}]}], "]"}], ";"}]}], "Input",
- CellChangeTimes->{{3.7859935033086357`*^9, 3.7859935037228823`*^9}, {
-  3.7859936678836737`*^9, 3.785993672147312*^9}, {3.785994010813634*^9, 
-  3.785994161205628*^9}, {3.7859942139002743`*^9, 3.785994297045424*^9}, {
-  3.785994341821751*^9, 3.785994418831429*^9}, {3.785994576953451*^9, 
-  3.785994577246839*^9}},ExpressionUUID->"f3f112e1-1557-48bf-a069-\
-43ab6a85775d"],
+        RowBox[{"fGenByClassNum", "[", 
+         RowBox[{"cls", ",", "sel"}], "]"}], ",", 
+        RowBox[{"fGenByClassNum", "[", 
+         RowBox[{"cls", ",", "val"}], "]"}]}], "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SetSharedVariable", "[", "indLis", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"separated", "=", 
+   RowBox[{"ParallelMap", "[", 
+    RowBox[{"sampleGet", ",", 
+     RowBox[{"Range", "[", "7", "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Separation completed!\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"trainSet", "=", 
+   RowBox[{"Join", "@@", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"#", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "&"}], "/@", "separated"}], ")"}]}]}],
+   ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"valiSet", "=", 
+   RowBox[{"Join", "@@", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"#", "[", 
+        RowBox[{"[", "2", "]"}], "]"}], "&"}], "/@", "separated"}], ")"}]}]}],
+   ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"dataTrain", ",", " ", "valuTrain"}], "}"}], "=", 
+   RowBox[{"Transpose", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"RandomSample", "[", 
+       RowBox[{"#", ",", 
+        RowBox[{"Length", "[", "#", "]"}]}], "]"}], "&"}], "[", "trainSet", 
+     "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"dataVali", ",", " ", "valuVali"}], "}"}], " ", "=", " ", 
+   RowBox[{"Transpose", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"RandomSample", "[", 
+       RowBox[{"#", ",", 
+        RowBox[{"Length", "[", "#", "]"}]}], "]"}], "&"}], "[", "valiSet", 
+     "]"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.787462112696735*^9, 
+  3.7874621353530607`*^9}},ExpressionUUID->"8f3b4496-5df6-4759-8492-\
+5c38363d1ab0"],
 
 Cell[BoxData[{
  RowBox[{
@@ -318,7 +348,7 @@ Cell[BoxData[{
 07cd4d986f79"]
 },
 WindowSize->{956, 1025},
-WindowMargins->{{2, Automatic}, {2, Automatic}},
+WindowMargins->{{-1046, Automatic}, {-18, Automatic}},
 FrontEndVersion->"11.2 for Linux x86 (64-bit) (2017\:5e749\:670810\:65e5)",
 StyleDefinitions->"Default.nb"
 ]
@@ -333,11 +363,11 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 1680, 43, 170, "Input",ExpressionUUID->"df5a499a-e6e1-4bfe-b9b3-11263740bda3"],
-Cell[2241, 65, 1409, 41, 78, "Input",ExpressionUUID->"d316c8fc-8b84-4cde-8239-349cfacc3288"],
-Cell[3653, 108, 3968, 106, 428, "Input",ExpressionUUID->"d94fbb36-5693-447c-a7bc-f446bcfc152e"],
-Cell[7624, 216, 2920, 74, 474, "Input",ExpressionUUID->"f3f112e1-1557-48bf-a069-43ab6a85775d"],
-Cell[10547, 292, 964, 25, 109, "Input",ExpressionUUID->"02358992-da30-40b3-9de2-07cd4d986f79"]
+Cell[558, 20, 1752, 44, 170, "Input",ExpressionUUID->"df5a499a-e6e1-4bfe-b9b3-11263740bda3"],
+Cell[2313, 66, 1409, 41, 78, "Input",ExpressionUUID->"d316c8fc-8b84-4cde-8239-349cfacc3288"],
+Cell[3725, 109, 3968, 106, 428, "Input",ExpressionUUID->"d94fbb36-5693-447c-a7bc-f446bcfc152e"],
+Cell[7696, 217, 3367, 103, 437, "Input",ExpressionUUID->"8f3b4496-5df6-4759-8492-5c38363d1ab0"],
+Cell[11066, 322, 964, 25, 109, "Input",ExpressionUUID->"02358992-da30-40b3-9de2-07cd4d986f79"]
 }
 ]
 *)
