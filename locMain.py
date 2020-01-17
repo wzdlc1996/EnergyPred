@@ -34,7 +34,7 @@ for molName in mols:
     datas = utl.dataSet(molName)
     datas.applyDescriptor(acsf)
     atomNums.append(datas.atomNum)
-    datalds.append(DataLoader(datas, batch_size=32, shuffle=True, num_workers= 4))
+    datalds.append(DataLoader(datas, batch_size=100, shuffle=True, num_workers= 4))
     
     x_val = torch.as_tensor(datas.dataVal)
     y_val = torch.as_tensor(datas.labVal)
@@ -45,7 +45,6 @@ lossFuncs = []
 for atomNum in atomNums:
     lossFuncs.append(utl.locLoss(atomNum).to(device))
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
-learR = 1e-3
 lossReg = 1.
 errlis = np.zeros(100)
 model.train()
@@ -97,3 +96,22 @@ for t in range(5000):
         print("the "+str(t)+"-th training result is: "+str(losstmp))
         print("the detail: "+str(losstmps))
         model.train()
+
+model = utl.enerRegNet(featNum)
+model = torch.load("./model_local1.pt", map_location=torch.device("cpu"))
+testval = []
+for i in range(len(mols)):
+    with torch.no_grad():
+        xtest = torch.as_tensor(datalds[i].dataset.testData)
+        res = model(xtest)
+        res = torch.sum(res.reshape(1000, atomNums[i]), 1).numpy()
+        testval = np.append(testval, res)
+    
+with open("./resTest.dat", "w") as f:
+    f.write("Id,Predicted\n")
+    ind = 1
+    for tv in testval:
+        f.write(str(ind) + ",\t" + str(tv.item())+"\n")
+        ind += 1
+    
+    
