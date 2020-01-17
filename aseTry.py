@@ -2,6 +2,9 @@
 
 from ase import Atoms
 import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.kernel_ridge import KernelRidge
+from sklearn.model_selection import GridSearchCV
 
 mols = ["asp", "eth", "mal", "nap", "sal", "tol", "ura"]
 
@@ -25,10 +28,10 @@ for molName in mols:
     # Setting up the ACSF descriptor
     
     acsf = ACSF(
-        species=["C", "H", "O", "N"],
-        rcut=3.0,
-        g2_params=[[1, 1], [1, 2]],
-        g4_params=[[1, 1, 1], [1, 2, 1], [1, 1, -1], [1, 2, -1]],
+        species=[ele[i] for i in range(4) if np.sum(typeLis == i) != 0],
+        rcut=5.0,
+        g2_params=[[1, 1], [1, 2]]
+        #g4_params=[[1, 1, 1], [1, 2, 1], [1, 1, -1], [1, 2, -1]],
     )
     
     datax = np.split(acsf.create(molecules).flatten(), len(molecules))
@@ -36,10 +39,18 @@ for molName in mols:
     x = datax
     y = yall
     
-    from sklearn.kernel_ridge import KernelRidge
+    x, x_val, y, y_val = train_test_split(datax, yall, test_size = 0.2, random_state = 0)
+
+    params = {
+                    "alpha" : [0.01, 0.1, 1.],
+                    "gamma" : [0.1, 0.5, 1.0, 1.5, 2.0, 0.05, 0.3, 0.7]
+                }
     
-    kr = KernelRidge(alpha = 1e-6, kernel = "rbf", gamma = 0.5)
+    krc = KernelRidge(kernel = "rbf")
+    kr = GridSearchCV(krc, params)
     kr.fit(x,y)
+    print(np.sqrt(np.average((y - kr.predict(x))**2)))
+    print(np.sqrt(np.average((y_val - kr.predict(x_val))**2)))
     
     testall = np.loadtxt("./data/origin/test/"+molName+"_data/coord.dat")
     typeLis = np.int_(np.loadtxt("./data/origin/test/"+molName+"_data/type.dat"))
