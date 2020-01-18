@@ -14,7 +14,8 @@ mols = ["asp", "eth", "mal", "nap", "sal", "tol", "ura"]
 acsf = ACSF(
     species=["C", "H", "O", "N"],
     rcut=10.0,
-    g2_params=[[1, 1], [1, 2]]
+    g2_params=[[1, 1], [1, 2]],
+    g4_params=[[1,1,1], [1,1,-1]]
 )
 
 featNum = acsf.get_number_of_features()
@@ -34,7 +35,7 @@ for molName in mols:
     datas = utl.dataSet(molName)
     datas.applyDescriptor(acsf)
     atomNums.append(datas.atomNum)
-    datalds.append(DataLoader(datas, batch_size=100, shuffle=True, num_workers= 4))
+    datalds.append(DataLoader(datas, batch_size=32, shuffle=True, num_workers= 4))
     
     x_val = torch.as_tensor(datas.dataVal)
     y_val = torch.as_tensor(datas.labVal)
@@ -44,7 +45,7 @@ for molName in mols:
 lossFuncs = []
 for atomNum in atomNums:
     lossFuncs.append(utl.locLoss(atomNum).to(device))
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+optimizer = torch.optim.Adam(model.parameters())
 lossReg = 1.
 errlis = np.zeros(100)
 model.train()
@@ -98,13 +99,13 @@ for t in range(5000):
         model.train()
 
 model = utl.enerRegNet(featNum)
-model = torch.load("./model_local1.pt", map_location=torch.device("cpu"))
+model = torch.load("./model_local1.pt", map_location=torch.device("cuda:0"))
 testval = []
 for i in range(len(mols)):
     with torch.no_grad():
-        xtest = torch.as_tensor(datalds[i].dataset.testData)
+        xtest = torch.as_tensor(datalds[i].dataset.testData).to(device)
         res = model(xtest)
-        res = torch.sum(res.reshape(1000, atomNums[i]), 1).numpy()
+        res = torch.sum(res.reshape(1000, atomNums[i]), 1).cpu().numpy()
         testval = np.append(testval, res)
     
 with open("./resTest.dat", "w") as f:

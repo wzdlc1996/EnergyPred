@@ -14,13 +14,9 @@ class enerRegNet(torch.nn.Module):
     def __init__(self, featNum):
         super(enerRegNet, self).__init__()
         self.netEvol = torch.nn.Sequential(
-                torch.nn.Linear(featNum,1000),
+                torch.nn.Linear(featNum,500),
                 #torch.nn.BatchNorm1d(1000),
-                torch.nn.LeakyReLU(),
-                #torch.nn.Dropout(0.5),
-                torch.nn.Linear(1000,500),
-                #torch.nn.BatchNorm1d(500),
-                torch.nn.LeakyReLU(),
+                torch.nn.Sigmoid(),
                 #torch.nn.Dropout(0.5),
                 torch.nn.Linear(500,1)
         )

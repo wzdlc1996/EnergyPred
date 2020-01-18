@@ -29,9 +29,9 @@ for molName in mols:
     
     acsf = ACSF(
         species=[ele[i] for i in range(4) if np.sum(typeLis == i) != 0],
-        rcut=5.0,
-        g2_params=[[1, 1], [1, 2]]
-        #g4_params=[[1, 1, 1], [1, 2, 1], [1, 1, -1], [1, 2, -1]],
+        rcut=8.0,
+        g2_params=[[1, 1], [1, 2], [2, 1], [2, 2], [3, 1], [3, 2]],
+        g4_params=[[1, 1, 1], [1, 1, -1]],
     )
     
     datax = np.split(acsf.create(molecules).flatten(), len(molecules))
@@ -43,7 +43,7 @@ for molName in mols:
 
     params = {
                     "alpha" : [0.01, 0.1, 1.],
-                    "gamma" : [0.1, 0.5, 1.0, 1.5, 2.0, 0.05, 0.3, 0.7]
+                    "gamma" : [0.1, 0.5, 1.0, 0.05, 0.3, 0.7, 0.01, 0.05, 0.07]
                 }
     
     krc = KernelRidge(kernel = "rbf")
